@@ -38,13 +38,12 @@ RUN cd /root && \
     make install
 
 RUN useradd -r -m irods && \
-    mkdir /home/irods/.irods && \
-    chown -R irods /home/irods/.irods && \
-    mkdir /etc/gridftp.d
-
-COPY edit_config.sh /tmp
-RUN /tmp/edit_config.sh 
-
+    mkdir /home/irods/.irods \
+          /etc/gridftp.d \
+          /var/log/gridftp && \
+    chown -R irods /home/irods/.irods /var/log/gridftp
+    
+COPY *.conf /etc/gridftp.d/
 COPY run_gridftp_server /usr/sbin
 
 CMD ["sudo", "-u", "irods", "/usr/sbin/run_gridftp_server"]
