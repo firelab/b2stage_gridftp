@@ -43,7 +43,7 @@ RUN useradd -r -m irods && \
           /var/log/gridftp && \
     chown -R irods /home/irods/.irods /var/log/gridftp
     
-COPY *.conf /etc/gridftp.d/
+COPY config/* /etc/gridftp.d/
 COPY run_gridftp_server /usr/sbin
 
 CMD ["sudo", "-u", "irods", "/usr/sbin/run_gridftp_server"]
