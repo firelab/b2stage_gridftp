@@ -17,7 +17,8 @@ RUN rpm --import https://packages.irods.org/irods-signing-key.asc && \
                    libcurl-devel \
                    git gcc-c++ \
                    globus-gsi-cert-utils-progs \
-                   globus-proxy-utils && \
+                   globus-proxy-utils \
+                   sudo && \
     yum clean all && rm -rf /var/cache/yum 
 
 ENV GLOBUS_LOCATION="/usr" \
@@ -40,3 +41,8 @@ RUN useradd -r -m irods && \
     mkdir /home/irods/.irods && \
     chown -R irods /home/irods/.irods
 
+COPY edit_config.sh /tmp
+RUN /tmp/edit_config.sh 
+
+CMD ["sudo", "-u", "irods", "/etc/init.d/globus-gridftp-server", "restart"]
+EXPOSE 2811 50000-51000
