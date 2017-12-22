@@ -1,3 +1,4 @@
 #!/bin/bash
 export LD_LIBRARY_PATH=/opt/iRODS_DSI
+export LD_PRELOAD="/usr/lib64/libglobus_gridftp_server.so:/opt/iRODS_DSI/libglobus_gridftp_server_iRODS.so"
 /usr/sbin/globus-gridftp-server -c /etc/gridftp.conf -C /etc/gridftp.d
