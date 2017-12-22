@@ -1,0 +1,3 @@
+#!/bin/bash
+export LD_LIBRARY_PATH=/opt/iRODS_DSI
+/usr/sbin/globus-gridftp-server -c /etc/gridftp.conf -C /etc/gridftp.d

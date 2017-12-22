@@ -39,10 +39,13 @@ RUN cd /root && \
 
 RUN useradd -r -m irods && \
     mkdir /home/irods/.irods && \
-    chown -R irods /home/irods/.irods
+    chown -R irods /home/irods/.irods && \
+    mkdir /etc/gridftp.d
 
 COPY edit_config.sh /tmp
 RUN /tmp/edit_config.sh 
 
-CMD ["sudo", "-u", "irods", "/etc/init.d/globus-gridftp-server", "restart"]
+COPY run_gridftp_server /usr/sbin
+
+CMD ["sudo", "-u", "irods", "/usr/sbin/run_gridftp_server"]
 EXPOSE 2811 50000-51000
