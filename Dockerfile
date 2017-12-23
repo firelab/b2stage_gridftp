@@ -32,8 +32,8 @@ ENV GLOBUS_LOCATION="/usr" \
 
 RUN cd /root && \
     git clone https://github.com/EUDAT-B2STAGE/B2STAGE-GridFTP.git && \
-    mkdir /opt/iRODS_DSI && \
     cd B2STAGE-GridFTP && \
+    mkdir /opt/iRODS_DSI && \
     /opt/irods-externals/cmake3.5.2-0/bin/cmake . && \
     make install
 
