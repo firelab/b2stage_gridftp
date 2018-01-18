@@ -32,8 +32,8 @@ ENV GLOBUS_LOCATION="/usr" \
 
 RUN cd /root && \
     git clone https://github.com/EUDAT-B2STAGE/B2STAGE-GridFTP.git && \
-    mkdir /opt/iRODS_DSI && \
     cd B2STAGE-GridFTP && \
+    mkdir /opt/iRODS_DSI && \
     /opt/irods-externals/cmake3.5.2-0/bin/cmake . && \
     make install
 
@@ -43,7 +43,7 @@ RUN useradd -r -m irods && \
           /var/log/gridftp && \
     chown -R irods /home/irods/.irods /var/log/gridftp
     
-COPY *.conf /etc/gridftp.d/
+COPY config/* /etc/gridftp.d/
 COPY run_gridftp_server /usr/sbin
 
 CMD ["sudo", "-u", "irods", "/usr/sbin/run_gridftp_server"]
