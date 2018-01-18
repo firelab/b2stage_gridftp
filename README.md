@@ -2,7 +2,11 @@
 
 ## Summary
 This repository is a docker build environment for the [B2STAGE-GridFTP](https://github.com/EUDAT-B2STAGE/B2STAGE-GridFTP) 
-project. The idea is to build this docker image first, then include your site-specific customizations by creating your own 
+project. Containerizing this service as well as other iRODS services increases isolation between components in your iRODS 
+deployment. For instance, this GridFTP server can run on the same host as your iRODS server without needing 
+to be linked against the exact same version of the iRODS libraries as the iRODS server. 
+
+The idea is to build this docker image first, then include your site-specific customizations by creating your own 
 dockerfile which references this image on the FROM line. Hence, this image contains no configuration specific to your 
 environment. This image does set up the gridftp server to defer to the iRODS server for authorization and user mapping.
 
@@ -17,11 +21,13 @@ environment are necessarily specific to your environment, it is not possible to 
 following file provides an `irods_environment.json` file for the service account to use, includes a key and a 
 signed certificate in the service account's `~/.globus` directory, and downloads the trustroots from the myproxy-oauth server. 
 
-An example of adding configuration to the gridftp server is included. On the last line, a new file in `/etc/gridftp.d` is 
-created which sets the `data_interface` parameter so the server can operate behind a firewall.
+An example of adding configuration to the gridftp server is included. On the second to last `RUN` line, a new file in 
+`/etc/gridftp.d` is created which sets the `data_interface` parameter so the server can operate behind a firewall.
+
+The last `RUN` line changes ownership of all files added to the irods service account. Do not forget this.
 
 ```
-FROM b2stage_gridftp:4.2
+FROM bnordgren/b2stage_gridftp:4.2
 COPY irods_environment.json /home/irods/.irods
 
 ENV MYPROXY_SERVER=oauth.example.com \
